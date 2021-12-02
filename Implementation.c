@@ -10,7 +10,10 @@ struct node
 	element_type key;
 	struct node* left;
 	struct node* right;
+<<<<<<< HEAD
 };
+=======
+>>>>>>> 73a287b60b4ad7dc8d665dfdc6b1baf206d8dc71
 
 struct tree
 {
@@ -30,6 +33,7 @@ struct node* node_create(element_type key, struct node* l, struct node* r)
 
 struct tree* tree_create(element_type data, struct node* left, struct node* right)
 {
+<<<<<<< HEAD
 	struct node* t = (struct node*)malloc(sizeof(struct node)); //should we pass the size n to the function?
 	/* t->data = data;*/
 	t->left = NULL; //= left; (or remove left and right from function definition
@@ -64,8 +68,54 @@ void inorder (struct tree* t) //(struct node* n)
 		inorder(t->right):
     	}
 
+=======
+/*	element_type data;*/
+	struct node* left;/* start*/
+	struct node* right;/*end*/
 }
 
+struct node* node_create(element_type key, struct node* left, struct node* righ)
+{
+	struct node* n= (struct node*)malloc(sizeof(struct node);
+                n->key = key;
+                n->left = l;
+                n->right = r;
+               return n  
+}
+
+struct tree* tree_create(element_type data, struct node* left, struct node* right)
+{   
+    struct node* t = (struct node*)malloc(sizeof(struct node));
+   /* t->data = data;*/
+    t->left = NULL;
+    t->right = NULL;
+}
+int tree_emty(struct tree* t)
+{
+    assert(NULL !=t);
+    return t->right == NULL;
+>>>>>>> 73a287b60b4ad7dc8d665dfdc6b1baf206d8dc71
+}
+void inorder (struct tree* t)
+/*inorder tree traversal*/
+{
+    if(t != NULL ){
+        inorder( t->left);
+        printf(%d,t->data);
+        inorder(t ->right):
+    }
+
+}
+void tree_insert(struct tree* t)
+{
+    if(node == NULL)
+        return(T
+
+}
+
+void tree_delete()
+{
+}
 int tree_height(struct tree* t)
 {
 	if(t->data == NULL){
@@ -108,13 +158,14 @@ int tree_height(struct tree* t)
 
 	if(maxleft>maxright){
 		return maxleft;
-	}
+	
 	else{
 		return maxright;
 	}
 	
 }
 
+<<<<<<< HEAD
 element_type minimum_node(struct tree* t)
 {
 	struct node* min = t->left;
@@ -143,6 +194,8 @@ char node_isleft_or_isright(struct tree* t, struct node* n)
 	//else....
 		return "right";
 }
+=======
+>>>>>>> 73a287b60b4ad7dc8d665dfdc6b1baf206d8dc71
 
 char search_value_path(struct tree* t, element_type value)
 {
@@ -177,8 +230,10 @@ char search_value_path(struct tree* t, element_type value)
 			return path*;
 		}
 	}
+
 }
 
+<<<<<<< HEAD
 bool search_value(struct tree* t, element_type value)
 {
 	char path[] = search_value_path(t, value);
@@ -220,3 +275,5 @@ int tree_delete(struct tree* t, element_type value)
 }
 
 
+=======
+>>>>>>> 73a287b60b4ad7dc8d665dfdc6b1baf206d8dc71
