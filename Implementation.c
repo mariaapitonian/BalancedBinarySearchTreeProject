@@ -27,8 +27,12 @@ struct node* node_create(element_type key, struct node* left, struct node* right
 }
 
 struct tree* tree_create(element_type data, struct node* left, struct node* right)
-{
-	//To do
+{   
+    struct node* t = (struct node*)malloc(sizeof(struct node));
+    t->data = data;
+    t->left = NULL;
+    t->right = NULL;
+    return (n);
 }
 
 int tree_height(struct tree* t)
@@ -78,6 +82,17 @@ int tree_height(struct tree* t)
 		return maxright;
 	}
 	
+}
+
+void inorder (struct tree* t)
+/*inorder tree traversal*/
+{
+    if(t != NULL ){
+        inorder( t->left);
+        printf(%d,t->data);
+        inorder(t ->right):
+    }
+    
 }
 
 void tree_insert()
