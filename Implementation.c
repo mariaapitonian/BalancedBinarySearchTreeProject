@@ -10,31 +10,57 @@ struct node
 	element_type key;
 	struct node* left;
 	struct node* right;
-	struct node* parent;
 
 }
 
 struct tree
 {
-	element_type data;
-	struct node* left;
-	struct node* right;
+/*	element_type data;*/
+	struct node* left;/* start*/
+	struct node* right;/*end*/
 }
 
-struct node* node_create(element_type key, struct node* left, struct node* right, struct node* parent)
+struct node* node_create(element_type key, struct node* left, struct node* righ)
 {
-	//To do
+	struct node* n= (struct node*)malloc(sizeof(struct node);
+                n->key = key;
+                n->left = l;
+                n->right = r;
+               return n  
 }
 
 struct tree* tree_create(element_type data, struct node* left, struct node* right)
 {   
     struct node* t = (struct node*)malloc(sizeof(struct node));
-    t->data = data;
+   /* t->data = data;*/
     t->left = NULL;
     t->right = NULL;
-    return (n);
+}
+int tree_emty(struct tree* t)
+{
+    assert(NULL !=t);
+    return t->right == NULL;
+}
+void inorder (struct tree* t)
+/*inorder tree traversal*/
+{
+    if(t != NULL ){
+        inorder( t->left);
+        printf(%d,t->data);
+        inorder(t ->right):
+    }
+
+}
+void tree_insert(struct tree* t)
+{
+    if(node == NULL)
+        return(T
+
 }
 
+void tree_delete()
+{
+}
 int tree_height(struct tree* t)
 {
 	if(t->start == NULL){
@@ -77,33 +103,13 @@ int tree_height(struct tree* t)
 
 	if(maxleft>maxright){
 		return maxleft;
-	}
+	
 	else{
 		return maxright;
 	}
 	
 }
 
-void inorder (struct tree* t)
-/*inorder tree traversal*/
-{
-    if(t != NULL ){
-        inorder( t->left);
-        printf(%d,t->data);
-        inorder(t ->right):
-    }
-    
-}
-
-void tree_insert()
-{
-	//To do
-}
-
-void tree_delete()
-{
-	//To do
-}
 
 bool search_tree(struct tree* t, element_type value)
 {
@@ -137,4 +143,6 @@ bool search_tree(struct tree* t, element_type value)
 			return 0;
 		}
 	}
+
 }
+
