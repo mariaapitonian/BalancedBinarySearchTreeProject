@@ -10,34 +10,33 @@ struct node
 	element_type key;
 	struct node* left;
 	struct node* right;
-<<<<<<< HEAD
 };
-=======
->>>>>>> 73a287b60b4ad7dc8d665dfdc6b1baf206d8dc71
 
 struct tree
 {
-/*	element_type data;*/
-	struct node* left;/* start*/
-	struct node* right;/*end*/
+	size_type n;
+	struct node* start;
 };
 
 struct node* node_create(element_type key, struct node* l, struct node* r)
 {
-	struct node* n= (struct node*)malloc(sizeof(struct node));
+	struct node* n=(struct node*)malloc(sizeof(struct node));
 	n->key = key;
         n->left = l;
 	n->right = r;
         return n;
 }
 
-struct tree* tree_create(element_type data, struct node* left, struct node* right)
+struct tree* tree_create(element_type defval, size_type n)
 {
-<<<<<<< HEAD
-	struct node* t = (struct node*)malloc(sizeof(struct node)); //should we pass the size n to the function?
-	/* t->data = data;*/
-	t->left = NULL; //= left; (or remove left and right from function definition
-	t->right = NULL; 
+	struct tree* t = (struct tree*)malloc(n*(sizeof(struct tree)));
+	struct node* root = create_node(defval, NULL, NULL);
+	t->start = root;
+	
+	for(int i=0; i<(log10(n)/log10(2)-1); i++){
+		struct node* current = create_node(defval, NULL, NULL); 
+		root->left=current;
+		
 	return t;
 }
 
@@ -49,7 +48,7 @@ int tree_empty(struct tree* t)
 
 int is_empty(struct tree* t)
 {
-	if(t->data == NULL){
+	if(t->start == NULL){
 		printf("The tree is empty");
 		return 1;
 	}
@@ -59,7 +58,7 @@ int is_empty(struct tree* t)
 	}
 }
 
-void inorder (struct tree* t) //(struct node* n)
+void inorder (struct node* root) //(struct node* n)
 /*inorder tree traversal*/
 {
 	if(t != NULL ){
@@ -67,55 +66,8 @@ void inorder (struct tree* t) //(struct node* n)
 		printf("%d \n",t->data);
 		inorder(t->right):
     	}
-
-=======
-/*	element_type data;*/
-	struct node* left;/* start*/
-	struct node* right;/*end*/
 }
 
-struct node* node_create(element_type key, struct node* left, struct node* righ)
-{
-	struct node* n= (struct node*)malloc(sizeof(struct node);
-                n->key = key;
-                n->left = l;
-                n->right = r;
-               return n  
-}
-
-struct tree* tree_create(element_type data, struct node* left, struct node* right)
-{   
-    struct node* t = (struct node*)malloc(sizeof(struct node));
-   /* t->data = data;*/
-    t->left = NULL;
-    t->right = NULL;
-}
-int tree_emty(struct tree* t)
-{
-    assert(NULL !=t);
-    return t->right == NULL;
->>>>>>> 73a287b60b4ad7dc8d665dfdc6b1baf206d8dc71
-}
-void inorder (struct tree* t)
-/*inorder tree traversal*/
-{
-    if(t != NULL ){
-        inorder( t->left);
-        printf(%d,t->data);
-        inorder(t ->right):
-    }
-
-}
-void tree_insert(struct tree* t)
-{
-    if(node == NULL)
-        return(T
-
-}
-
-void tree_delete()
-{
-}
 int tree_height(struct tree* t)
 {
 	if(t->data == NULL){
@@ -126,8 +78,8 @@ int tree_height(struct tree* t)
 	int maxright = 1;
 	struct node* leftsub = node_create(1, NULL, NULL);
 	struct node* rightsub = node_create(1, NULL, NULL);
-	leftsub = t->left;
-	rightsub = t->right;
+	leftsub = t->start;
+	rightsub = t->start;
 	
 	while(true){
 		if(leftsub->left != NULL){
@@ -165,10 +117,9 @@ int tree_height(struct tree* t)
 	
 }
 
-<<<<<<< HEAD
 element_type minimum_node(struct tree* t)
 {
-	struct node* min = t->left;
+	struct node* min = t->start;
 /*	for(int i=0; i<tree_height(t); i++){
  *		if(min->left !== NULL) {......}}*/
 	while(min->left != NULL){ 
@@ -179,7 +130,7 @@ element_type minimum_node(struct tree* t)
 
 element_type tree_maximum(struct tree* t)
 {
-	struct node* max = t->right;
+	struct node* max = t->start;
 	while(max->right != NULL){
 		max = max->right;
 	}
@@ -194,18 +145,16 @@ char node_isleft_or_isright(struct tree* t, struct node* n)
 	//else....
 		return "right";
 }
-=======
->>>>>>> 73a287b60b4ad7dc8d665dfdc6b1baf206d8dc71
 
 char search_value_path(struct tree* t, element_type value)
 {
-	struct node* root = t->start; //???t->left?
+	struct node* root = t->start;
 	char path[tree_height(t)] = {};
 	int steps = 0;
 
 	for(int i=0; i<tree_height(t); i++) {
 		temp=root;
-		if(root==value){
+		if(root->key==value){
 			if(steps=0){
 				printf("The values exists at the root position");
 				path[steps]="root";
@@ -215,12 +164,12 @@ char search_value_path(struct tree* t, element_type value)
 			}
 			return path;
 		}
-		else if((root>value) && (temp->left !== NULL)){
+		else if((root->key>value) && (temp->left !== NULL)){
 			root=root->left;
 			path[steps]="left ";
 			steps++;
 		}
-		else if((root<value) && (temp->right !== NULL)){
+		else if((root->key<value) && (temp->right !== NULL)){
 			root=root->right;
 			path[steps]="right ";
 			steps++;
@@ -233,7 +182,6 @@ char search_value_path(struct tree* t, element_type value)
 
 }
 
-<<<<<<< HEAD
 bool search_value(struct tree* t, element_type value)
 {
 	char path[] = search_value_path(t, value);
@@ -248,12 +196,35 @@ bool search_value(struct tree* t, element_type value)
 
 void tree_insert(struct tree* t, element_type value)
 {
-	if(node == NULL){
-	
-	}
-	return(T
+	struct node* insertpos = t->start;
+	struct node* newnode = node_create(value, NULL, NULL);
 
+	for(int i=0; i<tree_height(t); i++) {
+		temp=insertpos;
+		if(insertpos->key >= value){
+			if(insertpos->right==NULL){
+				insertpos->right==newnode;
+				break;
+			}
+			else{
+				insertpos=insertpos->right;
+			}
+		}
+		else if(insertpos->key < value){
+			if(insertpos->left==NULL){
+				insertpos->left==newnode;
+				break;
+			}
+			else{
+				insertpos=insertpos->left;
+			}
+		}
+	}
+
+	//new node inserted, tree unbalanced
+	//check and perform rotations
 }
+
 
 int tree_delete(struct tree* t, element_type value)
 {
@@ -263,11 +234,34 @@ int tree_delete(struct tree* t, element_type value)
 		return 0;
 	}
 	
-	for(int i=0; i<sizeof(path); i++){
-		if(path[i]=="root"){
-			//delete root and perform appropriate rotation
+	if(path[0] == "root"){
+		struct node* templeft = t->start->left;
+		struct node* tempright = t->start->right;
+		struct node* newroot = node_create(0, NULL, NULL);
+		struct node* previous = node_create(0, NULL, NULL);
+		newroot=t->start->left;
+		previous
+
+		for(int i=1; i<(tree_height(t)-1); i++){	//finding the largest element in the left subtree to replace root
+			if(newroot->right != NULL){
+				previous = newroot;
+				newroot->right;
+			}
 		}
-		//else if (cover all cases and relate appropriate rotation to position)
+		//root replaced, old leaf deleted, now check and perform appropriate rotation to balance the tree
+		return 1;
+	}
+
+	for(int i=0; i<sizeof(path); i++){
+		if(path[i]=="left "){
+			current = current->left;
+		}
+		else if(path[i]=="right "){
+			current = current->right;
+		}	
+		else{
+			break;
+		}	//else if (cover all cases and relate appropriate rotation to position)
 	}
 
 	return 1;
@@ -275,5 +269,3 @@ int tree_delete(struct tree* t, element_type value)
 }
 
 
-=======
->>>>>>> 73a287b60b4ad7dc8d665dfdc6b1baf206d8dc71
