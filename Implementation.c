@@ -27,16 +27,10 @@ struct node* node_create(element_type key, struct node* l, struct node* r)
         return n;
 }
 
-struct tree* tree_create(element_type defval, size_type n)
+struct tree* tree_create(element_type rootval)
 {
 	struct tree* t = (struct tree*)malloc(n*(sizeof(struct tree)));
-	struct node* root = create_node(defval, NULL, NULL);
-	t->start = root;
-	
-	for(int i=0; i<(log10(n)/log10(2)-1); i++){
-		struct node* current = create_node(defval, NULL, NULL); 
-		root->left=current;
-		
+	t->start = create_node(rootval, NULL, NULL);
 	return t;
 }
 
@@ -196,12 +190,17 @@ bool search_value(struct tree* t, element_type value)
 
 void tree_insert(struct tree* t, element_type value)
 {
+	if(search_value(value) == 1){
+		printf("Value cannot be inserted as it already exists.");
+		return 0;
+	}
+	
 	struct node* insertpos = t->start;
 	struct node* newnode = node_create(value, NULL, NULL);
 
 	for(int i=0; i<tree_height(t); i++) {
 		temp=insertpos;
-		if(insertpos->key >= value){
+		if(insertpos->key > value){
 			if(insertpos->right==NULL){
 				insertpos->right==newnode;
 				break;
