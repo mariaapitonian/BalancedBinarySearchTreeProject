@@ -45,31 +45,31 @@ int is_empty(struct tree* t)
 	}
 }
 
-void inorder (struct node* t) //(struct node* n)
+void inorder (struct node* n) //(struct node* n)
 /*inorder tree traversal*/
 {
 	if(t != NULL ){
-		inorder(t->left);
-		printf("%d \n",t->data);
-		inorder(t->right):
+		inorder(n->left);
+		printf("%d \n",n->key);
+		inorder(n->right);
     	}
 }
 
-void preorder(struct node* t)//preorder traversal
+void preorder(struct node* n)//preorder traversal
 {
     if( t != NULL){
-        printf("%d",t->data);
-        preorder(t->left);
-        preorder(t->right);
+        printf("%d",n->key);
+        preorder(n->left);
+        preorder(n->right);
        }
 } 
 
-void postorder(struct node* t) //postorder traversal 
+void postorder(struct node* n) //postorder traversal 
 {
     if(t !=NULL){
-        postorder(t->left);
-        postorder(t->right);
-        printf("%d",t->data);
+        postorder(n->left);
+        postorder(n->right);
+        printf("%d",n->key);
     }
 }
 int tree_height(struct tree* t)
