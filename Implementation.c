@@ -39,13 +39,6 @@ struct tree* tree_create(element_type defval, size_type n)
 		
 	return t;
 }
-
-int tree_empty(struct tree* t)
-{
-	assert(NULL !=t);
-	return t->right == NULL;
-}
-
 int is_empty(struct tree* t)
 {
 	if(t->start == NULL){
@@ -58,7 +51,7 @@ int is_empty(struct tree* t)
 	}
 }
 
-void inorder (struct node* root) //(struct node* n)
+void inorder (struct node* t) //(struct node* n)
 /*inorder tree traversal*/
 {
 	if(t != NULL ){
@@ -68,6 +61,23 @@ void inorder (struct node* root) //(struct node* n)
     	}
 }
 
+void preorder(struct node* t)//preorder traversal
+{
+    if( t != NULL){
+        printf("%d",t->data);
+        preorder(t->left);
+        preorder(t->right);
+       }
+} 
+
+void postorder(struct node* t) //postorder traversal 
+{
+    if(t !=NULL){
+        postorder(t->left);
+        postorder(t->right);
+        printf("%d",t->data);
+    }
+}
 int tree_height(struct tree* t)
 {
 	if(t->data == NULL){
