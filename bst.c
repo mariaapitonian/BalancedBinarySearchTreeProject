@@ -22,15 +22,15 @@ struct node* node_create(element_type key, struct node* l, struct node* r)
 {
 	struct node* n=(struct node*)malloc(sizeof(struct node));
 	n->key = key;
-        n->left = l;
+    n->left = l;
 	n->right = r;
         return n;
 }
 
 struct tree* tree_create(element_type rootval)
 {
-	struct tree* t = (struct tree*)malloc((sizeof(struct tree)));
-	t->start = create_node(rootval, NULL, NULL);
+	struct tree* t = (struct tree*)malloc(sizeof(struct tree));
+	t->start = NULL;
 	return t;
 }
 int is_empty(struct tree* t)
@@ -45,36 +45,7 @@ int is_empty(struct tree* t)
 	}
 }
 
-void inorder (struct tree* t ) //(struct node* n)
-/*inorder tree traversal*/
-{
-    struct node* root = t->start;
-	if(root != NULL ){
-		inorder(root->left);
-		printf("%d \n",root->key);
-		inorder(root->right);
-    	}
-}
 
-void preorder(struct tree* t)//preorder traversal
-{
-    struct node* root = t->start;
-    if( root != NULL){
-        printf("%d",root->key);
-        preorder(root->left);
-        preorder(root->right);
-       }
-} 
-
-void postorder(struct tree* t) //postorder traversal 
-{
-    struct node* root = t->start;
-    if(root !=NULL){
-        postorder(root->left);
-        postorder(root->right);
-        printf("%d",root->key);
-    }
-}
 int tree_height(struct tree* t)
 {
 	if(t->data == NULL){
@@ -123,7 +94,6 @@ int tree_height(struct tree* t)
 	}
 	
 }
-
 element_type minimum_node(struct tree* t)
 {
 	struct node* min = t->start;
@@ -236,7 +206,137 @@ void tree_insert(struct tree* t, element_type value)
 	//new node inserted, tree unbalanced
 	//check and perform rotations
 }
+void inorder_helper (struct node* n ) //(struct node* n)
+/*inorder tree traversal*/
+{
+    printf("print tree \n");
+    assert(NULL != n);
+	if(n != NULL ){
+		inorder(n->left);
+		printf("%d \n",n->key);
+		inorder(n->right);
+    	}
+}
+void tree_inorder(struct tree* t)
+{
+    assert (NULL !=t);
+    inorder_helper(t->root);
+}
 
+/*
+void preorder(struct tree* root)//preorder traversal
+{
+    assert(NULL != t)
+    if( root != NULL){
+        printf("%d",root->key);
+        preorder(root->left);
+        preorder(root->right);
+       }
+} 
+
+void postorder(struct tree* root) //postorder traversal 
+{
+    assert(NULL != t)
+    if(root !=NULL){
+        postorder(root->left);
+        postorder(root->right);
+        printf("%d",root->key);
+    }
+} */
+void singl_rotation_lhelper(struct node* n)/* a single rotation from right to left at the root of T*/
+  {
+    struct tree* r  = n->right;
+    n->right = r->left;
+    tree_height(struct tree* n);
+    
+    r->left  = n;
+    n = r;
+    tree_height(struct node* n);
+  }
+void single_rotation_left(struct tree* t)
+{
+    assert (NULL !=t);
+    singl_rotation_left(t->root);
+}
+
+void singl_rotation_rhelper(struct node* n)
+/* singleRotateRight(T) performs a singlerotation from left to right at the root of T*/
+  {
+    struct tree* l  = n->left;
+    n->left  = l->right;
+    tree_height(struct tree* n);
+
+    l->right = n;
+    n = r;
+    tree_height(struct node* n);
+  }
+void singl_rotation_right(struct tree* t)
+{
+    assert (NULL !=t);
+    singl_rotation_right(t->root);
+}
+/*Double rotation*/
+void double_rotate_left(struct tree* t)
+  {
+    singl_rotation_right(t->right);
+    singl_rotation_left(t);
+  }
+void double_rotate_right(struct tree* t)
+  {
+    single_rotation_left(t->right);
+    singl_rotation_right(t);
+  }
+  //choosing a single or double rotation.
+void rotat_left(struct tree* t)
+{
+    struct tree* r = t->right;
+    int  h1 = height(r->left);
+    int  h2 = height(r->right);
+
+    if(h1 > h2)
+    {
+      singl_rotation_left(struct tree* t);
+    }
+    else
+    {
+      double_rotate_left(struct tree* t);
+    }
+}
+void rotat_left(struct tree* t)
+{
+    struct tree* l = t->right;
+    int  h1 = height(l->left);
+    int  h2 = height(l->right);
+
+    if(h1 > h2)
+    {
+      singl_rotation_right(t);
+    }
+    else
+    {
+      double_rotate_right(t);
+    }
+}
+/*
+void rebalance(struct tree* t)
+  {
+    int  maxleft= height(t->left);
+    int maxright = height(t->right);
+
+    if(maxright >  maxleft + 1)
+    {
+      rotat_left(t);
+    }
+    else if(h> hr + 1)
+    {
+      rotateRight(T);
+    }
+    else
+    {
+      installHeight(T);
+    }
+  }
+*/
 
 int tree_delete(struct tree* t, element_type value)
 {
@@ -279,5 +379,9 @@ int tree_delete(struct tree* t, element_type value)
 	return 1;
 	//To do
 }
-
+int main()
+{
+    struct tree* a = tree_create();
+    
+}
 
