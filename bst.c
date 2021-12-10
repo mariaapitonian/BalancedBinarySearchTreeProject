@@ -27,7 +27,7 @@ struct node* node_create(element_type key, struct node* l, struct node* r)
         return n;
 }
 
-struct tree* tree_create(element_type rootval)
+struct tree* tree_create()
 {
 	struct tree* t = (struct tree*)malloc(sizeof(struct tree));
 	t->start = NULL;
@@ -92,40 +92,40 @@ int tree_height(struct node* root)
 	if(maxleft>maxright){
 		return maxleft;
 	
+	}
 	else{
 		return maxright;
 	}
 }
 
-element_type tree_minimum(struct node* n)
+struct node* tree_minimum(struct node* n)
 /*function that locates the minimum value in the tree/subtree*/
 {
 	struct node* min = n;
 	while(min->left != NULL){ 
 		min = min->left;
 	}
-	return min->key;
+	return min;
 }
 
-element_type tree_maximum(struct node* n)
+struct node* tree_maximum(struct node* n)
 /*function that locates the maximum value in the tree/subtree*/
 {
 	struct node* max = n;
 	while(max->right != NULL){
 		max = max->right;
 	}
-	return max->key;
+	return max;
 }
 
 char search_value_path(struct tree* t, element_type value)
 /*returns the path to any node in the tree. Useful for other functions like boolean search, delete, find parent, etc*/
 {
 	struct node* root = t->start;
-	char path[tree_height(t)] = {};
+	char path[tree_height(t->start)] = {};
 	int steps = 0;
 
-	for(int i=0; i<tree_height(t); i++) {
-		temp=root;
+	for(int i=0; i<tree_height(t->start); i++) {
 		if(root->key==value){
 			if(steps=0){
 				printf("The values exists at the root position");
@@ -136,19 +136,19 @@ char search_value_path(struct tree* t, element_type value)
 			}
 			return path;
 		}
-		else if((root->key>value) && (temp->left !== NULL)){
+		else if((root->key>value) && (root->left != NULL)){
 			root=root->left;
 			path[steps]="left ";
 			steps++;
 		}
-		else if((root->key<value) && (temp->right !== NULL)){
+		else if((root->key<value) && (root->right != NULL)){
 			root=root->right;
 			path[steps]="right ";
 			steps++;
 		}
 		else{
 			printf("The value does not exist in the binary search tree");
-			return path*;
+			return path;
 		}
 	}
 
@@ -167,12 +167,14 @@ bool search_value(struct tree* t, element_type value)
 	}
 }
 
-struct node* find_parent(struct tree* t, struct node* n)
+struct node* find_parent(struct tree* t, element_type value)
+/*returns parent node of a node, if it exists*/
 {
-	char path[] == search_value_path(t, n->key);
+	struct node* parent = NULL;
+	char path[] = search_value_path(t, value);
 	if(path[0]=="root" || path[0]==NULL){
 		printf("The node has no parent");
-		return 0;
+		return parent;
 	}
 
 	for(int i=0; i<(sizeof(path)-1); i++){
@@ -193,16 +195,16 @@ void inorder_helper (struct node* n ) //(struct node* n)
 	printf("print tree \n");
 	assert(NULL != n);
 	if(n != NULL ){
-		inorder(n->left);
+		inorder_helper(n->left);
 		printf("%d \n",n->key);
-		inorder(n->right);
+		inorder_helper(n->right);
     	}
 }
 
 void tree_inorder(struct tree* t)
 {
 	assert (NULL !=t);
-	inorder_helper(t->root);
+	inorder_helper(t->start);
 }
 
 
@@ -238,13 +240,13 @@ void single_rotation_lhelper(struct node* n)/* a single rotation from right to l
 void single_rotation_left(struct tree* t)
 {
 	assert (NULL !=t);
-	single_rotation_left(t->root);
+	single_rotation_left(t->start);
 }
 
 void single_rotation_rhelper(struct node* n)
 /* singleRotateRight(T) performs a singlerotation from left to right at the root of T*/
 {
-	struct tree* l  = n->left;
+	struct node* l  = n->left;
 	n->left  = l->right;
 
 	l->right = n;
@@ -254,7 +256,7 @@ void single_rotation_rhelper(struct node* n)
 void single_rotation_right(struct tree* t)
 {
 	assert (NULL !=t);
-	single_rotation_right(t->root);
+	single_rotation_right(t->start);
 }
 
 /*Double rotation*/
@@ -270,10 +272,10 @@ void double_rotate_right(struct node* n)
 	single_rotation_right(n);
 }
 
-//choosing a single or double rotation.
+/*Choosing a single or double rotation*/
 void rotate_left(struct tree* t)
 {
-	struct tree* r = t->right;
+	struct node* r = t->right;
 	int  h1 = tree_height(r->left);
 	int  h2 = tree_height(r->right);
 
@@ -289,7 +291,7 @@ void rotate_left(struct tree* t)
 
 void rotate_left(struct tree* t)
 {
-	struct tree* l = t->right;
+	struct node* l = t->right;
 	int  h1 = tree_height(l->left);
 	int  h2 = tree_height(l->right);
 
@@ -321,9 +323,9 @@ void rebalance(struct tree* t)
 	return;
 }
 
-void tree_insert(struct tree* t, element_type value)
+int tree_insert(struct tree* t, element_type value)
 {
-	if(search_value(value) == 1){
+	if(search_value(t, value) == 1){
 		printf("Value cannot be inserted as it already exists.");
 		return 0;
 	}
@@ -331,8 +333,7 @@ void tree_insert(struct tree* t, element_type value)
 	struct node* insertpos = t->start;
 	struct node* newnode = node_create(value, NULL, NULL);
 
-	for(int i=0; i<tree_height(t); i++) {
-		temp=insertpos;
+	for(int i=0; i<tree_height(t->start); i++) {
 		if(insertpos->key > value){
 			if(insertpos->right==NULL){
 				insertpos->right==newnode;
@@ -353,12 +354,12 @@ void tree_insert(struct tree* t, element_type value)
 		}
 	}
 	rebalance(t);
-	return;
+	return 1;
 }
 
 int tree_delete(struct tree* t, element_type value)
 {
-	if(search_value(struct tree* t, element_type value) == false){
+	if(search_value(t, value) == false){
 		printf("The value cannot be removed as it does not exist");
 		return 0;
 	}
@@ -368,32 +369,52 @@ int tree_delete(struct tree* t, element_type value)
 		int hr = tree_height(t->start->right);
 		struct node* newrootparent = NULL;
 		if(hr>hl){
-			newroot = tree_minimum(t->start->left);
-			newrootparent = find_parent(newroot->key);
+			struct node* newroot = tree_minimum(t->start->right);
+			struct node* newrootparent = find_parent(t, newroot->key);
 			newrootparent->left = NULL;
+			struct node* leftsubtree = t->start->left;
 			struct node* rightsubtree = t->start->right;
 			t->start = newroot;
-			t->start->right = rightsubtree;
+			newroot->right = rightsubtree;
+			newroot->left = leftsubtree;
 		}
 		else{
-			newroot = tree_maximum(t->start->right);
-			newrootparent = find_parent(newroot->key);
+			struct node* newroot = tree_maximum(t->start->left);
+			struct node* newrootparent = find_parent(t, newroot->key);
 			newrootparent->right = NULL;
 			struct node* leftsubtree = t->start->left;
+			struct node* rightsubtree = t->start->right;
 			t->start = newroot;
-			t->start->left = leftsubtree;
+			newroot->right = rightsubtree;
+			newroot->left = leftsubtree;
 		}
 		rebalance(t);//root replaced, old leaf deleted, rebalanced
 		return 1;
 	}
-	
+
+
 	struct node* parent = find_parent(t, value);
 	if(path[(sizeof(path)-1)] =="left "){
-	//	parent->left... replace
+		struct node* newval = tree_maximum(parent->left->left);
+		struct node* newvalparent = find_parent(t, newval->key);
+		newvalparent->right = NULL;
+		struct node* rightsubtree = parent->left->right;
+		struct node* leftsubtree = parent->left->left;
+		parent->left = newval;
+		newval->right = rightsubtree;
+		newval->left = leftsubtree;
 	}
 	else if(path[(sizeof(path)-1)]=="right "){
-	//	parent->right... replace with new subtree
+		struct node* newval = tree_maximum(parent->right->left);
+		struct node* newvalparent = find_parent(t, newval->key);
+		newvalparent->right = NULL;
+		struct node* rightsubtree = parent->right->right;
+		struct node* leftsubtree = parent->right->left;
+		parent->right = newval;
+		newval->right = rightsubtree;
+		newval->left = leftsubtree;
 	}
+	rebalance(t);
 	return 1;
 }
 
