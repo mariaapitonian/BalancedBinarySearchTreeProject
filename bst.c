@@ -232,8 +232,7 @@ void single_rotation_lhelper(struct node* n)/* a single rotation from right to l
 {
 	struct node* r  = n->right;
 	n->right = r->left;
-    
-	r->left  = n;
+        r->left  = n;
 	n = r;
 }
 
@@ -264,10 +263,10 @@ void double_rotate_lhelper(struct node* n)
     single_rotation_rhelper(n->right);
     single_rotation_lhelper(n);
 }
-void double_rotate_left(struct node* t)
+void double_rotate_left(struct tree* t)
 {
      assert (NULL !=t);
-     double_rotate_lhelper(t->start)
+     double_rotate_lhelper(t->start);
 }
 
 void double_rotate_rhelper(struct node* n)
@@ -275,61 +274,76 @@ void double_rotate_rhelper(struct node* n)
     single_rotation_lhelper(n->right);
     single_rotation_rhelper(n);
 }
-void double_rotate_right(struct node* t)
+void double_rotate_right(struct tree* t)
 {
      assert (NULL !=t);
-     double_rotate_rhelper(t->start)
+     double_rotate_rhelper(t->start);
 }
 
 /*Choosing a single or double rotation*/
-void rotate_left(struct tree* t)
+void rotate_lhelper(struct node* n)
 {
-	struct node* r = t->right;
+	struct node* r = n->right;
 	int  h1 = tree_height(r->left);
 	int  h2 = tree_height(r->right);
 
 	if(h1 > h2){
-      		single_rotation_left(struct tree* t);
-    	};
+      		single_rotation_lhelper(n);
+    	}
     	else
     	{
-double_rotate_left(struct tree* t);
+            double_rotate_lhelper(n);
    	}
 	return;
 }
-
 void rotate_left(struct tree* t)
 {
-	struct node* l = t->right;
+    assert (NULL !=t);
+    rotate_lhelper(t->start);
+}
+
+void rotate_rhelper(struct node* n)
+{
+	struct node* l = n->right;
 	int  h1 = tree_height(l->left);
 	int  h2 = tree_height(l->right);
 
     	if(h1 > h2)
     	{
-      		single_rotation_right(t);
+      		single_rotation_rhelper(n);
     	}
     	else
     	{
-      		double_rotate_right(t);
+      		double_rotate_rhelper(n);
     	}
 	return;
 }
-
-void rebalance(struct tree* t)
+void rotate_right(struct tree* t)
 {
-	int maxleft = tree_height(t->left);
-	int maxright = tree_height(t->right);
+    assert (NULL !=t);
+    rotate_rhelper(t->start);
+}
+
+void rebalance_helper(struct node* n)
+{
+	int maxleft = tree_height(n->left);
+	int maxright = tree_height(n->right);
 
 	if(maxright > (maxleft+1)){
-      		rotate_left(t);
+      		rotate_lhelper(n);
     	}
     	else if(maxleft > (maxright+1)) {
-      		rotate_right(t);
+      		rotate_rhelper(n);
     	}
     	/*else{
       		installHeight(t);
 	}*/	
 	return;
+}
+void rebalance(struct tree* t)
+{
+    assert (NULL !=t);
+    rebalance_helper(t->start);
 }
 
 int tree_insert(struct tree* t, element_type value)
