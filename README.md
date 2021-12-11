@@ -21,6 +21,8 @@ Search efficiency will subsequently be tested and compared to arrays and unbalan
 
 --------------------------------------------------------------------------------
 Course: ENGS 115 Data Structures and Algorithms
+
 Team: Maria Apitonian(URL-https://github.com/mariaapitonian)
-      Mariam Mkrtichyan(URL-https://github.com/mariammkrtichyan)
+     
+       Mariam Mkrtichyan(URL-https://github.com/mariammkrtichyan)
  

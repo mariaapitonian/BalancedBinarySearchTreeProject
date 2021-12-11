@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <stdbool.h>  
 typedef int element_type;
 typedef unsigned int size_type;
 
@@ -240,36 +240,45 @@ void single_rotation_lhelper(struct node* n)/* a single rotation from right to l
 void single_rotation_left(struct tree* t)
 {
 	assert (NULL !=t);
-	single_rotation_left(t->start);
+	single_rotation_lhelper(t->start);
 }
 
 void single_rotation_rhelper(struct node* n)
 /* singleRotateRight(T) performs a singlerotation from left to right at the root of T*/
 {
-	struct node* l  = n->left;
-	n->left  = l->right;
-
-	l->right = n;
-	n = r;
+    struct node* l  = n->left;
+    n->left  = l->right;
+    l->right = l;
+    n = l;
 }
 
 void single_rotation_right(struct tree* t)
 {
-	assert (NULL !=t);
-	single_rotation_right(t->start);
+    assert (NULL !=t);
+    single_rotation_rhelper(t->start);
 }
 
 /*Double rotation*/
-void double_rotate_left(struct node* n)
+void double_rotate_lhelper(struct node* n)
 {
-	single_rotation_right(n->right);
-	single_rotation_left(n);
+    single_rotation_rhelper(n->right);
+    single_rotation_lhelper(n);
+}
+void double_rotate_left(struct node* t)
+{
+     assert (NULL !=t);
+     double_rotate_lhelper(t->start)
 }
 
-void double_rotate_right(struct node* n)
+void double_rotate_rhelper(struct node* n)
 {
-	single_rotation_left(n->right);
-	single_rotation_right(n);
+    single_rotation_lhelper(n->right);
+    single_rotation_rhelper(n);
+}
+void double_rotate_right(struct node* t)
+{
+     assert (NULL !=t);
+     double_rotate_rhelper(t->start)
 }
 
 /*Choosing a single or double rotation*/
@@ -281,10 +290,10 @@ void rotate_left(struct tree* t)
 
 	if(h1 > h2){
       		single_rotation_left(struct tree* t);
-    	}
+    	};
     	else
     	{
-      		double_rotate_left(struct tree* t);
+double_rotate_left(struct tree* t);
    	}
 	return;
 }
