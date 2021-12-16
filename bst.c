@@ -118,7 +118,7 @@ struct node* tree_maximum(struct node* n)
     return max;
 }
 
-char search_value_path(struct tree* t, element_type value)
+char* search_value_path(struct tree* t, element_type value)
 /*returns the path to any node in the tree. Useful for other functions like boolean search, delete, find parent, etc*/
 {
     struct node* root = t->start;
@@ -128,7 +128,7 @@ char search_value_path(struct tree* t, element_type value)
         if(root->key==value){
             if(steps=0){
                 printf("The values exists at the root position");
-                path[steps]="root";
+                path[steps]='r';
             }
             else{
                 printf("The value exists at position %s", path);
@@ -137,12 +137,12 @@ char search_value_path(struct tree* t, element_type value)
         }
         else if((root->key>value) && (root->left != NULL)){
             root=root->left;
-            path[steps]="left ";
+            path[steps]='l';
             steps++;
         }
         else if((root->key<value) && (root->right != NULL)){
             root=root->right;
-            path[steps]="right ";
+            path[steps]='r';
             steps++;
         }
         else{
@@ -156,7 +156,7 @@ char search_value_path(struct tree* t, element_type value)
 bool search_value(struct tree* t, element_type value)
 /*returns a boolean statement on whether a value exists in the tree*/
 {
-    char path[] = search_value_path(t, value);
+    char* path = search_value_path(t, value);
     if(path==NULL){
         return false;
     }
@@ -170,16 +170,16 @@ struct node* find_parent(struct tree* t, element_type value)
 /*returns parent node of a node, if it exists*/
 {
     struct node* parent = NULL;
-    char path[] = search_value_path(t, value);
-    if(path[0]=="root" || path[0]==NULL){
+    char* path = search_value_path(t, value);
+    if((path[0]=='r') || (path[0]==NULL)){
         printf("The node has no parent");
         return parent;
     }
     for(int i=0; i<(sizeof(path)-1); i++){
-        if(path[i]=="left "){
+        if(path[i]=='l'){
             parent = parent->left;
         }
-        else if(path[i]=="right "){
+        else if(path[i]=='r'){
             parent = parent->right;
         }
     }
@@ -189,154 +189,154 @@ struct node* find_parent(struct tree* t, element_type value)
 void inorder_helper (struct node* n ) //(struct node* n)
 /*inorder tree traversal*/
 {
-    printf("print tree \n");
-    assert(NULL != n);
-    if(n != NULL ){
-        inorder_helper(n->left);
-        printf("%d \n",n->key);
-        inorder_helper(n->right);
-    }
+    	printf("print tree \n");
+    	assert(NULL != n);
+    	if(n != NULL ){
+        	inorder_helper(n->left);
+        	printf("%d \n",n->key);
+        	inorder_helper(n->right);
+    	}
 }
 
 void tree_inorder(struct tree* t)
 {
-    assert (NULL !=t);
-    inorder_helper(t->start);
+    	assert (NULL !=t);
+    	inorder_helper(t->start);
 }
 
 
 /*void preorder(struct tree* root)//preorder traversal
 {
-    assert(NULL != t)
-    if( root != NULL){
-        printf("%d",root->key);
-        preorder(root->left);
-        preorder(root->right);
-       }
+    	assert(NULL != t)
+    	if( root != NULL){
+        	printf("%d",root->key);
+        	preorder(root->left);
+        	preorder(root->right);
+       	}
 } 
 
 void postorder(struct tree* root) //postorder traversal 
 {
-    assert(NULL != t)
-    if(root !=NULL){
-        postorder(root->left);
-        postorder(root->right);
-        printf("%d",root->key);
+	assert(NULL != t)
+  	if(root !=NULL){
+        	postorder(root->left);
+        	postorder(root->right);
+        	printf("%d",root->key);
     }
 } */
 
 void single_rotation_lhelper(struct node* n)/* a single rotation from right to left at the root of T*/
 {
-    struct node* r  = n->right;
-    n->right = r->left;
-    r->left  = n;
-    n = r;
+    	struct node* r  = n->right;
+    	n->right = r->left;
+    	r->left  = n;
+    	n = r;
 }
 
 void single_rotation_left(struct tree* t)
 {
-    assert (NULL !=t);
-    single_rotation_lhelper(t->start);
+    	assert (NULL !=t);
+    	single_rotation_lhelper(t->start);
 }
 
 void single_rotation_rhelper(struct node* n)
 /* singleRotateRight(T) performs a singlerotation from left to right at the root of T*/
 {
-    struct node* l  = n->left;
-    n->left  = l->right;
-    l->right = l;
-    n = l;
+    	struct node* l  = n->left;
+    	n->left  = l->right;
+    	l->right = l;
+    	n = l;
 }
 
 void single_rotation_right(struct tree* t)
 {
-    assert (NULL !=t);
-    single_rotation_rhelper(t->start);
+    	assert (NULL !=t);
+    	single_rotation_rhelper(t->start);
 }
 
 /*Double rotation*/
 void double_rotate_lhelper(struct node* n)
 {
-    single_rotation_rhelper(n->right);
-    single_rotation_lhelper(n);
+    	single_rotation_rhelper(n->right);
+    	single_rotation_lhelper(n);
 }
 void double_rotate_left(struct tree* t)
 {
-     assert (NULL !=t);
-     double_rotate_lhelper(t->start);
+     	assert (NULL !=t);
+     	double_rotate_lhelper(t->start);
 }
 
 void double_rotate_rhelper(struct node* n)
 {
-    single_rotation_lhelper(n->right);
-    single_rotation_rhelper(n);
+    	single_rotation_lhelper(n->right);
+    	single_rotation_rhelper(n);
 }
 void double_rotate_right(struct tree* t)
 {
-     assert (NULL !=t);
-     double_rotate_rhelper(t->start);
+     	assert (NULL !=t);
+     	double_rotate_rhelper(t->start);
 }
 
 /*Choosing a single or double rotation*/
 void rotate_lhelper(struct node* n)
 {
-    struct node* r = n->right;
-    int  h1 = tree_height(r->left);
-    int  h2 = tree_height(r->right);
+	struct node* r = n->right;
+    	int  h1 = tree_height(r->left);
+    	int  h2 = tree_height(r->right);
     
-    if(h1 > h2){
-        single_rotation_lhelper(n);
-    }
-    else{
-        double_rotate_lhelper(n);
-    }
-    return;
+    	if(h1 > h2){
+    	    single_rotation_lhelper(n);
+    	}
+    	else{
+    	    double_rotate_lhelper(n);
+    	}
+    	return;
 }
 void rotate_left(struct tree* t)
 {
-    assert (NULL !=t);
-    rotate_lhelper(t->start);
+    	assert (NULL !=t);
+    	rotate_lhelper(t->start);
 }
 
 void rotate_rhelper(struct node* n)
 {
-    struct node* l = n->right;
-    int  h1 = tree_height(l->left);
-    int  h2 = tree_height(l->right);
+    	struct node* l = n->right;
+    	int  h1 = tree_height(l->left);
+    	int  h2 = tree_height(l->right);
     
-    if(h1 > h2){
-        single_rotation_rhelper(n);
-    }
-    else{
-        double_rotate_rhelper(n);
-    }
-    return;
+    	if(h1 > h2){
+        	single_rotation_rhelper(n);
+    	}
+    	else{
+        	double_rotate_rhelper(n);
+    	}
+    	return;
 }
 void rotate_right(struct tree* t)
 {
-    assert (NULL !=t);
-    rotate_rhelper(t->start);
+    	assert (NULL !=t);
+    	rotate_rhelper(t->start);
 }
 
 void rebalance_helper(struct node* n)
 {
-    int maxleft = tree_height(n->left);
-    int maxright = tree_height(n->right);
-    if(maxright > (maxleft+1)){
-        rotate_lhelper(n);
-    }
-    else if(maxleft > (maxright+1)) {
-        rotate_rhelper(n);
-    }
-    /*else{
-     * installHeight(t);
-     * }*/	
-    return;
+    	int maxleft = tree_height(n->left);
+    	int maxright = tree_height(n->right);
+    	if(maxright > (maxleft+1)){
+        	rotate_lhelper(n);
+	}
+	else if(maxleft > (maxright+1)) {
+        	rotate_rhelper(n);
+    	}
+    	/*else{
+      		installHeight(t);
+      	}*/	
+    	return;
 }
 void rebalance(struct tree* t)
 {
-    assert (NULL !=t);
-    rebalance_helper(t->start);
+	assert (NULL !=t);
+	rebalance_helper(t->start);
 }
 
 int tree_insert(struct tree* t, element_type value)
@@ -380,7 +380,8 @@ int tree_delete(struct tree* t, element_type value)
 		return 0;
 	}
 	
-	if(path[0] == "root"){
+	char* path = search_value_path(t, value);
+	if(path[0] == 'r'){
 		int hl = tree_height(t->start->left);
 		int hr = tree_height(t->start->right);
 		struct node* newrootparent = NULL;
@@ -410,7 +411,7 @@ int tree_delete(struct tree* t, element_type value)
 
 
 	struct node* parent = find_parent(t, value);
-	if(path[(sizeof(path)-1)] =="left "){
+	if(path[(sizeof(path)-1)] =='l'){
 		struct node* newval = tree_maximum(parent->left->left);
 		struct node* newvalparent = find_parent(t, newval->key);
 		newvalparent->right = NULL;
@@ -420,7 +421,7 @@ int tree_delete(struct tree* t, element_type value)
 		newval->right = rightsubtree;
 		newval->left = leftsubtree;
 	}
-	else if(path[(sizeof(path)-1)]=="right "){
+	else if(path[(sizeof(path)-1)]=='r'){
 		struct node* newval = tree_maximum(parent->right->left);
 		struct node* newvalparent = find_parent(t, newval->key);
 		newvalparent->right = NULL;
@@ -437,6 +438,15 @@ int tree_delete(struct tree* t, element_type value)
 int main()
 {
     struct tree* a = tree_create();
-    
+    tree_insert(a, 55);
+    tree_insert(a, 40);
+    tree_insert(a, 20);
+    tree_insert(a, 88);
+    tree_insert(a, 19);
+    tree_insert(a, 25);
+    tree_insert(a, 70);
+    tree_insert(a, 44);
+    tree_insert(a, 40);
+    tree_inorder(a);
 }
 
