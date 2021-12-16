@@ -18,7 +18,7 @@ Search efficiency will subsequently be tested and compared to arrays and unbalan
 
 2. Git includes 3 versions of Product Requirment documets (1.1,1.2,2.1)
 bst.c file which includes the whole implimitation
-Presentation.pdf file which includes brief explanation about Binary Search Tree and the implimintation.
+     Presentation.pdf file which includes brief explanation about Binary Search Tree and the implimintation.
 --------------------------------------------------------------------------------
 Course: ENGS 115 Data Structures and Algorithms
 
