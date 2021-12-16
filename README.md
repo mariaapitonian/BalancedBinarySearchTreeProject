@@ -17,12 +17,12 @@ Search efficiency will subsequently be tested and compared to arrays and unbalan
 1. Install the prodject using URL - https://github.com/mariaapitonian/BalancedBinarySearchTreeProject.git
 
 2. Git includes 3 versions of Product Requirment documets (1.1,1.2,2.1)
-.c file which includes the whole implimitation
-
+bst.c file which includes the whole implimitation
+Presentation.pdf file which includes brief explanation about Binary Search Tree and the implimintation.
 --------------------------------------------------------------------------------
 Course: ENGS 115 Data Structures and Algorithms
 
 Team: Maria Apitonian(URL-https://github.com/mariaapitonian)
      
-       Mariam Mkrtichyan(URL-https://github.com/mariammkrtichyan)
+      Mariam Mkrtichyan(URL-https://github.com/mariammkrtichyan)
  
