@@ -12,12 +12,11 @@ This way, the structure can self-balance and avoid reaching heights that are lar
 The project will involve building a structure for binary trees from scratch.
 Available functions will include insertions and deletions, a create function, an optimized search function, minimum and maximum functions, isLeft and isRight functions.
 Hence, the required features of the project is to create a self-balancing binary search tree that can deal with insertions and deletions while maintaining minimal time complexity.
-Search efficiency will subsequently be tested and compared to arrays and unbalanced BSTs which is the main upose of the prodject.
 
 1. Install the prodject using URL - https://github.com/mariaapitonian/BalancedBinarySearchTreeProject.git
 
 2. Git includes 3 versions of Product Requirment documets (1.1,1.2,2.1) 
-    2.1 Presentation_BST.pdf file which includes brief desciption about Binary tree
+    2.1 BST Project Presenttion.pdf file which includes brief desciption about Binary tree
     2.2 bst.c file which includes the whole implimitation 
 
 
