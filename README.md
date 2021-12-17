@@ -10,14 +10,14 @@ The main goal of a self-balancing binary search tree is to automatically minimiz
 This way, the structure can self-balance and avoid reaching heights that are larger than they need to be.
 
 The project will involve building a structure for binary trees from scratch.
-Available functions will include insertions and deletions, a create function, an optimized search function, minimum and maximum functions, isLeft and isRight functions.
+Available functions will include insertions and deletions, a create function, an optimized search function, minimum and maximum functions, a height calculating function, a parent finding function, insert and remove functions, an isempty function, and rotation functions for rebalancing the tree upon insertion and removal of elements.
 Hence, the required features of the project is to create a self-balancing binary search tree that can deal with insertions and deletions while maintaining minimal time complexity.
 
-1. Install the prodject using URL - https://github.com/mariaapitonian/BalancedBinarySearchTreeProject.git
+1. Install the project using URL - https://github.com/mariaapitonian/BalancedBinarySearchTreeProject.git
 
-2. Git includes 3 versions of Product Requirment documets (1.1,1.2,2.1) 
-    2.1 BST Project Presenttion.pdf file which includes brief desciption about Binary tree
-    2.2 bst.c file which includes the whole implimitation 
+2. Git includes 5 versions of Product Requirement documets (1.1,1.2,2.1,3.1,3.2). The latest one is the 3.2 version, found in the PRD folder. 
+    2.1 BST Project Presenttion.pdf file which includes a brief desciption about Binary trees and the implementation, found in the presentation folder.
+    2.2 bst.c file which includes the whole implementation
 
 
 --------------------------------------------------------------------------------
