@@ -1,7 +1,9 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>  
+#include <stdbool.h>
+#include <string.h>
+
 typedef int element_type;
 typedef unsigned int size_type;
 
@@ -122,34 +124,42 @@ char* search_value_path(struct tree* t, element_type value)
 /*returns the path to any node in the tree. Useful for other functions like boolean search, delete, find parent, etc*/
 {
     struct node* root = t->start;
-    char path[tree_height(t->start)] = {};
+    int h = tree_height(t->start);
+    char path[20] = " ";
+    char rt = 't';
+    char rght = 'r';
+    char lft = 'l';
     int steps = 0;
     for(int i=0; i<tree_height(t->start); i++) {
         if(root->key==value){
             if(steps=0){
                 printf("The values exists at the root position");
-                path[steps]='r';
+                strncat(path, &rt, 1);
             }
             else{
                 printf("The value exists at position %s", path);
             }
-            return path;
+            char *finalpath = malloc(sizeof(char)*steps);
+	    finalpath = path;
+	    return finalpath;
         }
         else if((root->key>value) && (root->left != NULL)){
             root=root->left;
-            path[steps]='l';
+            strncat(path, &lft, 1);
             steps++;
         }
         else if((root->key<value) && (root->right != NULL)){
             root=root->right;
-            path[steps]='r';
+            strncat(path, &rght, 1);
             steps++;
         }
         else{
             printf("The value does not exist in the binary search tree");
-            return path;
+	    char *finalpath = malloc(sizeof(char)*steps);
+	    finalpath = path;
+	    return finalpath;
 		}
-	}
+        }
 
 }
 
@@ -157,7 +167,7 @@ bool search_value(struct tree* t, element_type value)
 /*returns a boolean statement on whether a value exists in the tree*/
 {
     char* path = search_value_path(t, value);
-    if(path==NULL){
+    if(path==" "){
         return false;
     }
     else{
@@ -171,7 +181,7 @@ struct node* find_parent(struct tree* t, element_type value)
 {
     struct node* parent = NULL;
     char* path = search_value_path(t, value);
-    if((path[0]=='r') || (path[0]==NULL)){
+    if((path==" t") || (path==" ")){
         printf("The node has no parent");
         return parent;
     }
@@ -182,6 +192,9 @@ struct node* find_parent(struct tree* t, element_type value)
         else if(path[i]=='r'){
             parent = parent->right;
         }
+	else{
+	    continue;
+	}
     }
     return parent;
 }
@@ -443,10 +456,7 @@ int main()
     tree_insert(a, 20);
     tree_insert(a, 88);
     tree_insert(a, 19);
-    tree_insert(a, 25);
-    tree_insert(a, 70);
-    tree_insert(a, 44);
-    tree_insert(a, 40);
-    tree_inorder(a);
+    tree_delete(a, 55);
+    tree_delete(a, 20);
 }
 
